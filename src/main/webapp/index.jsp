@@ -32,6 +32,10 @@
         display:inline-block;
         border-radius: 5px;
         color: #000000;
+
+
+
+
     }
 
     .singlebutton2{

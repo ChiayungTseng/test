@@ -1,0 +1,367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page contentType="text/html; charset=UTF-8" session="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="pe" uri="/WEB-INF/tlds/powerengine2.tld"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>客户贷款信息查询</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<script language="javascript" src="script.do"></script>
+<script type="text/javascript" src="/mweb/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/mweb/js/jquery/jquery-1.7.2.min.js"></script>
+<style type="text/css">
+
+a:hover, a:link, a:visited, a:active {
+    text-decoration: none;
+   
+}
+
+
+.selected {
+    background: #009dd9;
+    display: inline-block;
+    padding: 0 15px;
+    margin-right: 10px;
+    color: #ffffff;
+    position: relative;
+}
+
+.selected span{
+	color:#ffffff;
+}
+
+.select {
+	border:1px solid #e4e4e4;
+    background: #ffffff;
+    display: inline-block;
+    padding: 0 15px;
+    margin-right: 10px;
+    color: #000000;
+    position: relative;
+}
+
+.select span{
+	color:#333333;
+}
+
+
+</style>
+
+
+<script language="javascript">
+	var index = "0";
+	$(document).ready(function(){
+		$(".select").click(function () {
+			index = $(this).find("a").attr("href").toString().substring(1);
+			$(".selected").removeClass("selected").addClass("select");
+			alert("----"+index);
+			$(this).removeClass("select").addClass("selected");
+			
+			//var html = '<div class="select"><a href="#4" ><span >小程序</span></a></div>';
+			//$(this).after(html);
+			
+		});
+		
+		$(".secselect").click(function () {
+			var msg = $(this).attr("value");
+			alert("----"+msg);
+			
+		});
+		
+		
+		
+	});
+
+	function doIt1(clickObj) 
+	{
+		var qtype = document.getElementById("QryType").value;
+		var qval = document.getElementById("InputId").value;
+		var qryMsgArray = new Array('请输入姓名！','请输入手机号码！','请输入发卡行！','请输入身份证！','请输入Jnlno','请输入RJnlno','请输入贷款帐号','请输入CaseNo','请输入银行卡号');
+		if(qtype != '99')
+		{
+			if(qval == '')
+			{
+				PEGetElement("EEE").innerHTML = qryMsgArray[qtype];
+				return false;
+			}
+		}
+
+		post2SRV('AppCifLoadQry.do', clickObj.form, clickObj, 'EEE');
+	}
+	
+	function doIt2(clickObj) 
+	{
+		var qtype = document.getElementById("QryType").value;
+		var qval = document.getElementById("InputId").value;
+		var qryMsgArray = new Array('请输入姓名！','请输入手机号码！','请输入发卡行！','请输入身份证！','请输入Jnlno','请输入RJnlno','请输入贷款帐号','请输入CaseNo','请输入银行卡号');
+		if(qtype != '99')
+		{
+			if(qval == '')
+			{
+				PEGetElement("EEE").innerHTML = qryMsgArray[qtype];
+				return false;
+			}
+		}
+		document.forms[0].action="AppCifLoadDownload.do";
+		document.forms[0].submit();
+
+	}
+	
+	
+	function checkFlag(obj) {
+		var arr = document.all["State"];
+		if(obj.checked == true)
+		{
+			arr[0].checked = true;
+			arr[1].checked = true;
+			arr[2].checked = true;
+			arr[3].checked = true;
+			arr[4].checked = true;
+			arr[5].checked = true;
+			arr[6].checked = true;
+			arr[7].checked = true;
+			arr[8].checked = true;
+			arr[9].checked = true;
+			arr[10].checked = true;
+			arr[11].checked = true;
+			arr[12].checked = true;
+			arr[13].checked = true;
+			arr[14].checked = true;
+			arr[15].checked = true;
+			arr[16].checked = true;
+			arr[17].checked = true;
+		}else
+		{		
+			arr[0].checked = false;
+			arr[1].checked = false;
+			arr[2].checked = false;
+			arr[3].checked = false;
+			arr[4].checked = false;
+			arr[5].checked = false;
+			arr[6].checked = false;
+			arr[7].checked = false;
+			arr[8].checked = false;
+			arr[9].checked = false;
+			arr[10].checked = false;
+			arr[11].checked = false;
+			arr[12].checked = false;
+			arr[13].checked = false;
+			arr[14].checked = false;
+			arr[15].checked = false;
+			arr[16].checked = false;
+			arr[17].checked = false;
+		}
+	}
+	function checkFlag1(obj) 
+	{
+		var arr = document.all["State"];
+		arr[0].checked = false;
+	}
+	
+	function checkFlag3(obj) {
+		var arr = document.all["JMultMerchantId"];
+		if(obj.checked == true){
+			for(var i=0;i<arr.length;i++)
+			{
+				arr[i].checked = true;
+			}
+		}else{
+			for(var i=0;i<arr.length;i++)
+			{
+				arr[i].checked = false;
+			}
+		}
+	}
+	function checkFlag4(obj) 
+	{
+		var arr = document.all["JMultMerchantId"];
+		arr[0].checked = false;
+	}
+	
+	function startup()
+	{
+		getList("AppClearChannelQry.do","ClearChannelSpan");//查找所有的商户号
+	}
+	function getList(vUrl,vShowId){
+	    PELoadContent(vUrl, null, vShowId);
+	}
+	function SetMerchantId(val)
+	{
+		var oparamsarr = val.split("/");
+		document.getElementById("ClearChannelId").value = oparamsarr[0];
+		document.getElementById("ClearChannelName").value = oparamsarr[1];
+	}
+</script>
+</head>
+
+<body onload="startup()">
+	<form name="form1">
+		<input type="hidden" value="">
+		<input type="hidden" id="ClearChannelId" name="ClearChannelId" value="" />
+		<input type="hidden" id="ClearChannelName" name="ClearChannelName" value="" />
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td align="center" valign="top">
+					<table width="99%" border="0" cellpadding="0" cellspacing="1"
+						class="biaocss">
+						<tr>
+							<td width="238" height="24" align="left">
+								<table width="238" border="0" cellpadding="0" cellspacing="0"
+									class="main_title1">
+									<tr>
+										<td class="tdHead">&nbsp;&nbsp;&nbsp; 客户贷款信息查询</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+
+					<table width="99%" border="0" cellpadding="0" cellspacing="1"
+						class="biaocss">
+						<tr class="tabble_huise_s">
+							<td width="20%" class="tdTitle">合作机构：</td>
+							<td width="30%" class="tdValue" colspan="3">
+							<div class="select"><a href="#99" ><span >全部</span></a></div>
+							<div class="select"><a href="#1" ><span >app</span></a></div>
+							<div class="select"><a href="#2"><span >微信</span></a></div>
+							<div class="select"><a href="#3" ><span >支付宝</span></a></div>
+							<div class="select"><a href="#4" ><span >小程序</span></a></div>
+							
+							<input type="checkbox" name="JMultMerchantId" id="JMultMerchantId" value="99"  onclick="checkFlag3(this);"/>全部&nbsp;&nbsp;
+							<c:forEach items="${Merchants}" var="row" varStatus="status">
+								
+								<div class="secselect" value="<c:out value="${row.Value}"/>" ><a href="#4" ><span ><c:out value="${row.Name}"/></span></a></div>
+								
+<!--								<input type="checkbox" name="JMultMerchantId" id="JMultMerchantId" value="<c:out value="${row.Value}"/>"  onclick="checkFlag4(this)"/><c:out value="${row.Name}"/>-->
+												
+							</c:forEach>	
+								
+							<br>
+							</td>
+						</tr>	
+						<tr class="tabble_huise_s">
+							<td width="10%" class="tdTitle">贷款来源：</td>
+							<td width="40%" class="tdValue" colspan="3">
+								<select name="IsOffline" id="IsOffline">
+									<option value="">----查询所有----</option>
+									<option value="X">线上贷款(App)</option>
+									<option value="H">线上贷款(H5)</option>
+									<option value="W">线上贷款(微信)</option>
+									<option value="M">线上贷款(小程序)</option>
+									<option value="Z">线上贷款(支付宝)</option>
+									<option value="Y">线下转线上(未注册)</option>
+									<option value="T">线下转线上(已注册)</option>
+								</select>
+							</td>
+						</tr>						
+						<tr class="tabble_huise_s">
+							<td width="20%" class="tdTitle">查询方式：</td>
+							<td width="30%" class="tdValue" colspan="3">
+								<select name="QryType" id="QryType">
+									<option value="99">----查询所有----</option>
+									<option value="0">姓名</option>
+									<option value="1">手机号码</option>
+									<option value="2">发卡行</option>									
+									<option value="3">身份证</option>
+									<option value="4">JnlNo</option>
+									<option value="5">RJnlNo</option>
+									<option value="6">贷款帐号</option>
+									<option value="7">CaseNo</option>
+									<option value="8">银行卡号</option>
+								</select>
+								&nbsp;&nbsp;<input type="text" name="InputId" id="InputId" maxlength='32' size='24'/>
+							</td>
+						</tr>
+						
+						<tr class="tabble_huise_s">
+							<td width="10%" class="tdTitle">产品类型：</td>
+							<td width="40%" class="tdValue" colspan="3">
+								<select name="PrdType" id="PrdType">
+									<option value="">----查询所有----</option>									
+									<option value="10120091">邮你贷-线上快贷</option>
+									<option value="10120098">邮你贷-线上快贷支付宝</option>
+									<option value="10120097">邮你贷-受邀白名单</option>
+									<option value="10120095">邮你贷-二胎贷</option>
+									<option value="10120093">邮你贷-公积金网贷</option>
+									<option value="10120099">邮你贷</option>
+									<option value="10220099">邮你花</option>
+									<option value="10220098">邮你花-受邀白名单</option>
+									<option value="10220096">邮你花-支付宝渠道</option>
+									<option value="AAAAAAAA">邮你购</option>
+								</select>
+								&nbsp;&nbsp;
+							</td>
+						</tr>
+						<tr class="tabble_huise_s">
+							<td width="20%" class="tdTitle">贷款状态：</td>
+							<td width="80%" class="tdValue" colspan="3">
+								<input type="checkbox" name="State" id="State" value="99"  onclick="checkFlag(this);"/>全部&nbsp;&nbsp;
+								<input type="checkbox" name="State" id="State" value="0"  onclick="checkFlag1(this);"/>审批中
+								<input type="checkbox" name="State" id="State" value="1"  onclick="checkFlag1(this);"/>审批通过待App确认
+								<input type="checkbox" name="State" id="State" value="2"  onclick="checkFlag1(this);"/>提交审批失败
+								<input type="checkbox" name="State" id="State" value="3"  onclick="checkFlag1(this);"/>已开户(邮你花)
+								<input type="checkbox" name="State" id="State" value="4"  onclick="checkFlag1(this);"/>本人放弃
+								<input type="checkbox" name="State" id="State" value="6"  onclick="checkFlag1(this);"/>等待放款
+								<input type="checkbox" name="State" id="State" value="8"  onclick="checkFlag1(this);"/>用款申请失败
+								<input type="checkbox" name="State" id="State" value="9"  onclick="checkFlag1(this);"/>交易异常
+								<input type="checkbox" name="State" id="State" value="B"  onclick="checkFlag1(this);"/>申请未通过(待确定)
+								<input type="checkbox" name="State" id="State" value="R"  onclick="checkFlag1(this);"/>申请未通过(结束)
+								<input type="checkbox" name="State" id="State" value="C"  onclick="checkFlag1(this);"/>放款成功(待确定,邮你花)
+								<input type="checkbox" name="State" id="State" value="G"  onclick="checkFlag1(this);"/>放款成功(待确定,邮你贷/邮你购)
+								<input type="checkbox" name="State" id="State" value="7"  onclick="checkFlag1(this);"/>放款成功(结束)
+								<input type="checkbox" name="State" id="State" value="D"  onclick="checkFlag1(this);"/>审批通过App已确认(邮你购)
+								<input type="checkbox" name="State" id="State" value="E"  onclick="checkFlag1(this);"/>客户放弃申请
+								<input type="checkbox" name="State" id="State" value="J"  onclick="checkFlag1(this);"/>退回补件,待确认
+								<input type="checkbox" name="State" id="State" value="Q"  onclick="checkFlag1(this);"/>审批退回(资料不全)
+							</td>							
+						</tr>
+						<tr class="tabble_huise_s">
+							<td width="20%" class="tdTitle">清分渠道：</td>
+							<td width="30%" class="tdValue">
+								<span id="ClearChannelSpan" name="ClearChannelSpan"> </span>
+							</td>
+							<td width="10%" class="tdTitle"></td>
+							<td width="40%" class="tdValue">
+								
+							</td>
+						</tr>
+						<tr class="tabble_huise_s">
+							<td width="20%" class="tdTitle">申请时间：</td>
+							<td width="80%" class="tdValue" colspan="3">
+								<input type="radio" name="ApplyDate" id="ApplyDate" value="0" checked/>今天
+								<input type="radio" name="ApplyDate" id="ApplyDate" value="1" />昨天
+								<input type="radio" name="ApplyDate" id="ApplyDate" value="2" />七天内
+								<input type="radio" name="ApplyDate" id="ApplyDate" value="3" />一个月
+								<input type="radio" name="ApplyDate" id="ApplyDate" value="4" />自定义
+								
+								<input name="BeginDate" id="BeginDate" type="text" size="14" value="${BeginDate }" onClick="WdatePicker()" /> - 
+								<input name="EndDate" id="EndDate" type="text" size="14" value="${EndDate }" onClick="WdatePicker()" />
+								
+							</td>
+							
+						</tr>
+					</table>
+					
+					<table width="99%" border="0" cellpadding="0" cellspacing="1"
+						class="biaocss">
+						<tr>
+							<td align="center" class="tdButton"><span>
+								<input type="button" name="Submit1" class="button" value="查询" onClick="doIt1(this);"></span>&nbsp;&nbsp;&nbsp;&nbsp; <span>
+								<input type="button" name="Submit1" class="button" value="下载" onClick="doIt2(this);"></span>&nbsp;&nbsp;&nbsp;&nbsp; <span>
+							</td>
+						</tr>
+					</table>
+					
+				</td>
+			</tr>
+		</table>
+		<div class="errors">
+			<span id="EEE"></span>
+			<pe:error />
+		</div>
+
+	</form>
+</body>
+</html>

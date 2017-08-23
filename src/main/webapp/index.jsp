@@ -7,13 +7,18 @@
 <body>
 <h2>Hello World!</h2>
 
+style="display:none"
+
 <div class="singlebutton"><a href="#99" class="singleA">全部</a></div>
 <div class="singlebutton2"><a href="#1" class="singleA">app渠道</a></div>
 <div class="singlebutton2"><a href="#2" class="singleA">支付宝渠道</a></div>
-<div class="singlebutton2"><a href="#3" class="singleA">微信渠道</a></div>
-<div class="singlebutton2"><a href="#4" class="singleA">小程序</a></div>
+<div class="singlebutton2"><a href="#3" class="singleA"><span><input type="checkbox" id="ss"  name="checkbox" value="111"  /> 试一下微信渠道</span></a></div>
+<div class="singlebutton2"><a href="#4" class="singleA"><span><input type="checkbox" id="ss"  name="checkbox" value="111" /> 试一下</span></a></div>
 
 <div class="singleB">afd</div>
+
+
+
 
 
 <div class="singlebutton1">222</div>
@@ -55,7 +60,27 @@
 </style>
 
 <script >
+    var i =1 ;
     $(".singleA").click(function(){
+
+
+        if($(this).find("input").is(':checked')){
+            $(this).find("input").prop('checked',false);
+        }else
+            $(this).find("input").prop('checked',true);
+//        if(i==1){
+//            $(this).find("input").prop('checked',true);
+//            $(this).find("input").val("222");
+//            i=2;
+//        }else{
+//            $(this).find("input").prop('checked',false);
+//            $(this).find("input").val("111");
+//            i=1;
+//        }
+
+
+        var ss = $(this).find("input").attr("value");
+        alert("----"+ss);
         $(".singleA").each(function() {
             if($(this).parent().attr('class')=='singlebutton'){
                 $(this).parent().removeClass("singlebutton").addClass("singlebutton2");

@@ -32,7 +32,7 @@ a:hover, a:link, a:visited, a:active {
 	color:#ffffff;
 }
 
-.select {
+.select ,.secselect {
 	border:1px solid #e4e4e4;
     background: #ffffff;
     display: inline-block;
@@ -51,22 +51,32 @@ a:hover, a:link, a:visited, a:active {
 
 
 <script language="javascript">
-	var index = "0";
+	var index = "99";
 	$(document).ready(function(){
 		$(".select").click(function () {
 			index = $(this).find("a").attr("href").toString().substring(1);
 			$(".selected").removeClass("selected").addClass("select");
 			alert("----"+index);
 			$(this).removeClass("select").addClass("selected");
-			
-			//var html = '<div class="select"><a href="#4" ><span >小程序</span></a></div>';
-			//$(this).after(html);
-			
+
+			//获取所有.secselect类的对象
+			$(“.secselect”).each(function(){
+				var this = $(this);
+				var channelid = $(this).attr("value");
+				if(index != channelid){
+					$(this).hide();
+				}else{
+					$(this).show();
+				}
+			});
 		});
 		
 		$(".secselect").click(function () {
-			var msg = $(this).attr("value");
-			alert("----"+msg);
+			if($(this).find("input").is(':checked')){
+				$(this).find("input").prop('checked',false);
+			}else
+				$(this).find("input").prop('checked',true);
+
 			
 		});
 		
@@ -232,7 +242,11 @@ a:hover, a:link, a:visited, a:active {
 							<input type="checkbox" name="JMultMerchantId" id="JMultMerchantId" value="99"  onclick="checkFlag3(this);"/>全部&nbsp;&nbsp;
 							<c:forEach items="${Merchants}" var="row" varStatus="status">
 								
-								<div class="secselect" value="<c:out value="${row.Value}"/>" ><a href="#4" ><span ><c:out value="${row.Name}"/></span></a></div>
+								<div class="secselect" value="<c:out value="${row.ChanelId}"/>" ><a href="#4" ><span >
+
+								<input type="checkbox" name="JMultMerchantId" id="JMultMerchantId" value="<c:out value="${row.Value}"/>"  /><c:out value="${row.Name}"/>
+
+								</span></a></div>
 								
 <!--								<input type="checkbox" name="JMultMerchantId" id="JMultMerchantId" value="<c:out value="${row.Value}"/>"  onclick="checkFlag4(this)"/><c:out value="${row.Name}"/>-->
 												
